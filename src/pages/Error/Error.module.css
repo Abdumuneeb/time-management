@@ -1,0 +1,25 @@
+.errorWrapper{
+    background-image: url(../../Images/errorpage.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.subBtn{
+    text-decoration: none;
+    background-color: #5e4a87;
+    color: white;
+    padding: 15px;
+    width: 200px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 44%;
+    margin-top: 32.2%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.subBtn:hover{
+background-color: #b0aac8;
+color: black;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
