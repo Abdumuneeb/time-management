@@ -45,7 +45,7 @@ const CreateUser = () => {
               <h1>Sign Up </h1>
             </div>
 
-            <form >
+            <form onSubmit={submitHandler}>
             <input
                 type="text"
                 id="login"

@@ -5,7 +5,7 @@
 
     dispatch(requestPosts())
     try {
-         const response = await axios.post("http://34.210.129.167/api/login",{
+          await axios.post("http://34.210.129.167/api/login",{
              email,
              password,
              
@@ -37,8 +37,8 @@ const requestPosts = ()=>{
     }
 }
 
-
-export default {
+const exportedObject= {
     fetchPosts,
     requestPosts
-}
+  }
+  export default  exportedObject;

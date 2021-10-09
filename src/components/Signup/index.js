@@ -2,6 +2,7 @@ import React ,{useState} from 'react';
 import { useDispatch } from 'react-redux';
 import allActions from '../../redux/actions';
 import style from './Signup.module.css';
+import {Link} from 'react-router-dom';
 
 const Signup = () => {
 
@@ -90,11 +91,12 @@ const Signup = () => {
                 value={signup.password_confirmation}
                 onChange={changeHandler}
               />
-              <input type="submit"
+              <Link to="/dashboard"> <input type="submit"
                className={`${style.fadeIn} 
               ${style.fourth}`} 
               value="Register"
               />
+              </Link>
             </form>
           </div>
         </div>

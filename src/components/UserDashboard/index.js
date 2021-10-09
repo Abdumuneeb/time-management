@@ -2,14 +2,15 @@ import React from 'react';
 import style from './UserDashboard.module.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
 
-const AdminDashboard = () => {
+const UserDashboard = () => {
     return (
       <>
         <nav className={`navbar navbar-expand-lg navbar-light p-3 ${style.navbarBg}`}>
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              <h4>  Dashboard  </h4>  </a>
+            <Link className="navbar-brand" to="/">
+              <h4>  Dashboard  </h4>  </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -79,4 +80,4 @@ const AdminDashboard = () => {
     );
 }
 
-export default AdminDashboard
+export default UserDashboard

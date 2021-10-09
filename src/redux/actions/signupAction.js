@@ -10,7 +10,7 @@ const signup = (user)=> async (dispatch)=> {
 
   dispatch(requestPosts())
   try {
-       const response = await axios.post("http://34.210.129.167/api/register",{
+        await axios.post("http://34.210.129.167/api/register",{
            firstName,
            lastName,
            email,
@@ -45,8 +45,8 @@ const requestPosts = ()=>{
   }
 }
 
-
-export default {
+const exportedObject= {
   signup,
   requestPosts
 }
+export default  exportedObject;
