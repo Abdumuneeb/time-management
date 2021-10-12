@@ -2,25 +2,30 @@
   const fetchPosts = (user)=> async (dispatch)=> {
       const email = user.email;
       const password = user.password;
+    //   const token=user.token;
+      console.log("************" ,email);
+      console.log("*****************",password);
+    //   console.log("*************",token);
 
     dispatch(requestPosts())
     try {
-          await axios.post("http://34.210.129.167/api/login",{
+       await axios.post("http://34.210.129.167/api/login",{
+        headers: {
+          'Content-Type': 'application/json',
+        },
              email,
              password,
              
          })
-         .then((response)=>{
-            const LoginData=response.data; 
-            console.log(LoginData);
-            dispatch({type: "FETCH_POSTS_SUCCESS", payload: LoginData})
-          localStorage.setItem(
-            "login",
-            JSON.stringify({
-              
-            userLogin:true,
-              token: response.data.token,
-          }))
+         .then((res)=>{
+            const loginData=res.data; 
+            
+            dispatch({type: "FETCH_POSTS_SUCCESS", payload: loginData})
+            console.log(res);
+            localStorage.setItem(
+            "token",
+              res.data.token,
+         )
         })
   
     }  

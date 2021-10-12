@@ -1,10 +1,28 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import style from './ManagerDashboard.module.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux';
+import allActions from '../../redux/actions';
 
 const ManagerDashboard = () => {
+  const data= useSelector(state => state?.Users?.postItems?.users?.data);
+  const [deleteData,setDeleteData] =useState("");
+  console.log("Uselector data",data);
+   const dispatch = useDispatch();
+
+useEffect(() => {
+  dispatch(allActions.getUser.fetchUsers());
+ 
+}, [deleteData]);
+
+
+const deleteHandler=(id)=>{
+dispatch(allActions. deleteUser.DeleteUsers(id));
+setDeleteData(id);
+
+}
 
     return (
       <>
@@ -54,24 +72,29 @@ const ManagerDashboard = () => {
                     <table>
                         <thead>
                         <tr>
-                            <th>Log Date</th>
-                            <th>Working Hours</th>
-                            <th>Discription</th>
+                            <th>id</th>
+                            <th>first Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
                             <th> Actions </th>
 
                         </tr>
                         </thead>
                       <tbody>
-
-                        <tr>
-                        <td>Abdul Muneeb </td>
-                            <td>muneebafridi@gmail.com</td>
-                            <td>12</td>
-                            <td> 
-                             <EditIcon className={style.editBtn}/>
-                             <DeleteIcon className={style.editBtn}/>  
-                            </td>
-                        </tr>
+                          {
+                           data?.map((value)=>{
+                              return <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td> {value.firstName} </td>
+                                            <td>{value.lastName} </td>
+                                            <td>{value.email}</td>
+                                            <td> 
+                                              <EditIcon className={style.editBtn}/>
+                                              <DeleteIcon className={style.editBtn} onClick={()=>{ deleteHandler(value.id)}}/> 
+                                            </td>
+                                     </tr>
+                           })
+                          }
                       </tbody>
                        
                     </table>

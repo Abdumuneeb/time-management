@@ -1,10 +1,32 @@
-import React from 'react';
+import React ,{useEffect} from 'react';
 import style from './AdminDashboard.module.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
+import allActions from '../../redux/actions';
 
 const AdminDashboard = () => {
+  const data= useSelector(state => state?.Users?.postItems?.users?.data);
+  console.log("Uselector Admin data", data);
+  const dispatch = useDispatch();
+
+  const managerData=data?.filter((arr)=>{
+     return arr.roles[0].name === "manager"
+  })
+  console.log("Manager Data",managerData);
+
+  const UserData=data?.filter((arr)=>{
+    return arr.roles[0].name === "user"
+ })
+ console.log("user Data",UserData);
+   
+
+useEffect(() => {
+  dispatch(allActions.getUser.fetchUsers());
+ 
+}, [])
+
     return (
       <>
         <nav className={`navbar navbar-expand-lg navbar-light p-3 ${style.navbarBg}`}>
@@ -56,24 +78,31 @@ const AdminDashboard = () => {
                     <table>
                         <thead>
                         <tr>
+                            <th>id </th> 
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
+                            <th>Role </th>
                             <th> Actions </th>
 
                         </tr>
                         </thead>
-                      <tbody>
-
-                        <tr>
-                            <td>Abdul Muneeb </td>
-                            <td>muneebafridi@gmail.com</td>
-                            <td>12</td>
-                            <td> 
-                             <EditIcon className={style.editBtn}/>
-                             <DeleteIcon className={style.editBtn}/>  
-                            </td>
-                        </tr>
+                        <tbody>
+                          {
+                           managerData?.map((value)=>{
+                              return <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td> {value.firstName} </td>
+                                            <td>{value.lastName} </td>
+                                            <td>{value.email}</td>
+                                            <td> {value.roles[0].name}</td> 
+                                            <td> 
+                                              <EditIcon className={style.editBtn}/>
+                                              <DeleteIcon className={style.editBtn}/> 
+                                            </td>
+                                     </tr>
+                           })
+                          }
                       </tbody>
                        
                     </table>
@@ -83,25 +112,31 @@ const AdminDashboard = () => {
                     <table>
                         <thead>
                         <tr>
-                            <th>Log Date</th>
-                            <th>Working Hourse</th>
-                            <th>Discription</th>
+                            <th>id </th> 
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Role </th>
                             <th> Actions </th>
 
                         </tr>
                         </thead>
-                      <tbody>
-
-                        <tr>
-                            <td>Abdul Muneeb </td>
-                            <td>muneebafridi@gmail.com</td>
-                            <td>12</td>
-
-                            <td> 
-                             <EditIcon className={style.editBtn}/>
-                             <DeleteIcon className={style.editBtn}/>  
-                            </td>
-                        </tr>
+                        <tbody>
+                          {
+                           UserData?.map((value)=>{
+                              return <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td> {value.firstName} </td>
+                                            <td>{value.lastName} </td>
+                                            <td>{value.email}</td>
+                                            <td> {value.roles[0].name}</td> 
+                                            <td> 
+                                              <EditIcon className={style.editBtn}/>
+                                              <DeleteIcon className={style.editBtn}/> 
+                                            </td>
+                                     </tr>
+                           })
+                          }
                       </tbody>
                        
                     </table>

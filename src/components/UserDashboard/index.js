@@ -1,10 +1,45 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import style from './UserDashboard.module.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { useSelector,useDispatch} from 'react-redux';
+import allActions from '../../redux/actions';
 
 const UserDashboard = () => {
+    const userLog = useSelector(state=>state?.getUserLogs?.postItems?.workLogs?.data);
+    console.log("data recieved",userLog);
+    useEffect(() => {
+      dispatch(allActions.getUserLogs.fetchUsersLogs());
+      
+    }, [])
+   
+
+  const dispatch = useDispatch();
+  const [workLog,setWorkLog] =useState({
+    logDate:'',
+    hours:'',
+    description:'',
+  })
+  console.log( "Complete Object work Log", workLog);
+  const changeHandler =(event)=>{
+    const {name,value}= event.target;
+    setWorkLog((prevalue)=>{
+      return {...prevalue,[name]:value}
+    })
+  }
+  const submitHandler =(event)=>{
+    event.preventDefault();
+    dispatch(allActions.createLogs.createLogs(workLog));
+
+    // setWorkLog({
+    //   LogDate:"",
+    //   hours:"",
+    //   description:""
+    
+    // })
+  }
+
     return (
       <>
         <nav className={`navbar navbar-expand-lg navbar-light p-3 ${style.navbarBg}`}>
@@ -33,13 +68,13 @@ const UserDashboard = () => {
         </nav>
         <div className={style.contentWrapper}>
                 <div className={`${style.dateWrap} ${style.flexContent} `}>
-                                <form>
+                                <form onSubmit={submitHandler}>
                                 <label className={style.labelWrap}> Log Date</label>
-                                <input type="date" />
+                                <input name="logDate" value={workLog.logDate} type="date" onChange={changeHandler} />
                                 <label className={style.labelWrap}> Log Hour</label>
-                                <input type="number" placeholder="Log Hour" />
+                                <input name="hours" value={workLog.hours} type="number" onChange={changeHandler} placeholder="Log Hour" />
                                 <label className={style.labelWrap}> Discription</label>
-                                <input type="text" placeholder="Discription..."/> 
+                                <input type="text" name="description" value={workLog.description}  onChange={changeHandler} placeholder="Discription..."/> 
                                 <button className={`btn ${style.actionButton}`} > Create Log </button>
                                 </form>
                                 
@@ -52,24 +87,29 @@ const UserDashboard = () => {
                     <table>
                         <thead>
                         <tr>
+                            <th>id </th> 
                             <th>Log Date</th>
-                            <th>Working Hours</th>
-                            <th>Discription</th>
+                            <th>Log Hour</th>
+                            <th>Description</th>
                             <th> Actions </th>
 
                         </tr>
                         </thead>
-                      <tbody>
-
-                        <tr>
-                        <td>Abdul Muneeb </td>
-                            <td>muneebafridi@gmail.com</td>
-                            <td>12</td>
-                            <td> 
-                             <EditIcon className={style.editBtn}/>
-                             <DeleteIcon className={style.editBtn}/>  
-                            </td>
-                        </tr>
+                        <tbody>
+                       
+                          {
+                            userLog?.map((value)=>{
+                              return <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td>{value.log_date}</td>
+                                            <td> {value.hours} </td>
+                                            <td>{value.description} </td>
+                                            <td> 
+                                              <EditIcon className={style.editBtn}/>
+                                            </td>
+                                     </tr>
+                           })
+                          }
                       </tbody>
                        
                     </table>

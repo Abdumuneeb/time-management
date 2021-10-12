@@ -1,15 +1,19 @@
 import React,{useState} from 'react';
 import style from './Login.module.css';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import allActions from '../../redux/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const data= useSelector(state=>state.posts.postItems.token);
+  console.log("Tokennn" ,data);
   const [login,setLogin] =useState({
     email:'',
-    password:''
+    password:'',
+    token:data,
   })
+  console.log( "Complete Object", login);
   const changeHandler =(event)=>{
     const {name,value}= event.target;
     setLogin((prevalue)=>{
@@ -20,12 +24,15 @@ const Login = () => {
     event.preventDefault();
     dispatch(allActions.postActions.fetchPosts(login));
 
-    setLogin({
-      email:"",
-      password:""
-    })
+    // setLogin({
+    //   email:"",
+    //   password:"",
+    //   token:data
+    
+    // })
   }
-  console.log(login);
+ 
+
 
     return (
       <>
@@ -55,7 +62,7 @@ const Login = () => {
                 placeholder="password"
                 onChange={changeHandler}
               />
-              <Link to="/dashboard"> <input type="submit" className={`${style.fadeIn} ${style.fourth}`}  value="Log In" /> </Link>
+              <input type="submit" className={`${style.fadeIn} ${style.fourth}`}  value="Log In" /> 
               <Link to="/signup">  <input type="button"  className={`${style.fadeIn} ${style.fourth}`}  value="Sign Up" /> </Link>
             </form>
           </div>

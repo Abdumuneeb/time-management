@@ -32,6 +32,9 @@
     padding: 20px;
     cursor: pointer;
 }
+thead{
+    text-align: center;
+}
 
 .container{
     max-width: 1200px;

@@ -22,13 +22,7 @@ const signup = (user)=> async (dispatch)=> {
         const signupData=res.data; 
         console.log(res)
         dispatch({type: "FETCH_POSTS_SUCCESS", payload: signupData})
-        localStorage.setItem(
-          "login",
-          JSON.stringify({
-            
-          userLogin:true,
-            token: res.data.token,
-        }))
+     
       })
 
   }  

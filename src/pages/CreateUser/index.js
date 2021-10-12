@@ -1,32 +1,34 @@
 import React ,{useState} from 'react';
 import style from './CreateUser.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import allActions from '../../redux/actions';
 
 const CreateUser = () => {
-    
+  // const tokenData= useSelector(state=>state.posts);
+  //   console.log("tokennnnn",tokenData);
   const dispatch = useDispatch();
-  const [signup,setSignUp] = useState({
+  const [User,setUser] = useState({
     firstName: '',
     lastName:'',
     email:'',
     password:'',
     password_confirmation:"",
-    userType:"user"
+    userType:"user",
+    // token:tokenData
   });
 
   const changeHandler =(event)=>{
     const {name,value} =event.target;
 
-    setSignUp((prev)=>{
+    setUser((prev)=>{
       return {...prev, [name]:value};
     })
   }
   const submitHandler=(event)=>{
     event.preventDefault();
-    dispatch(allActions.signupAction.signup(signup))
+    dispatch(allActions.userAction.registerUser(User))
   
-    setSignUp({
+    setUser({
       firstName:"",
       lastName:"",
       email:"",
@@ -52,7 +54,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.second}`} 
                 name="firstName"
                 placeholder="First Name"
-                value={signup.firstName}
+                value={User.firstName}
                 onChange={changeHandler}
               />
                <input
@@ -61,7 +63,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.second}`} 
                 name="lastName"
                 placeholder="Last Name"
-                value={signup.lastName}
+                value={User.lastName}
                 onChange={changeHandler}
               />
               <input
@@ -70,7 +72,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.second}`} 
                 name="email"
                 placeholder="Email Address"
-                value={signup.email}
+                value={User.email}
                 onChange={changeHandler}
               />
               <input
@@ -79,7 +81,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.third}`}
                 name="password"
                 placeholder="password"
-                value={signup.password}
+                value={User.password}
                 onChange={changeHandler}
               />
                <input
@@ -88,7 +90,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.third}`}
                 name="password_confirmation"
                 placeholder="Confirm Password!"
-                value={signup.password_confirmation}
+                value={User.password_confirmation}
                 onChange={changeHandler}
               />
                 <input
@@ -97,7 +99,7 @@ const CreateUser = () => {
                 className={`${style.fadeIn} ${style.third}`}
                 name="userType"
                 placeholder="User Type"
-                value={signup.userType}
+                value={User.userType}
                 disabled
                 onChange={changeHandler}
               />
