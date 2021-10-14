@@ -24,6 +24,11 @@
     padding: 50px;
     border-radius: 30px;
 }
+.flexDir form {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
 .dateWrap input{
     height: 50px;
     width: 250px;

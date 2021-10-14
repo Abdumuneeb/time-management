@@ -3,12 +3,9 @@ const createLogs = (logs)=> async (dispatch)=> {
     const logDate = logs.logDate;
     const hours = logs.hours;
     const description=logs.description;
-    console.log("************" ,logDate);
-    console.log("*****************",hours);
-    console.log("***************",description);
+
 
     const userToken=localStorage.getItem('token');
-    console.log( "User ?Token",userToken)
 
   dispatch(requestPosts())
   try {
@@ -25,7 +22,6 @@ const createLogs = (logs)=> async (dispatch)=> {
           const loginData=res.data; 
           
           dispatch({type: "FETCH_POSTS_SUCCESS", payload: loginData})
-          console.log("data from action 12",res);
         
       })
 

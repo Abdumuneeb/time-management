@@ -2,10 +2,11 @@ import React ,{useState} from 'react';
 import style from './CreateUser.module.css';
 import { useDispatch} from 'react-redux';
 import allActions from '../../redux/actions';
+import { useHistory } from 'react-router';
 
 const CreateUser = () => {
-  // const tokenData= useSelector(state=>state.posts);
-  //   console.log("tokennnnn",tokenData);
+ const history = useHistory();
+
   const dispatch = useDispatch();
   const [User,setUser] = useState({
     firstName: '',
@@ -26,7 +27,7 @@ const CreateUser = () => {
   }
   const submitHandler=(event)=>{
     event.preventDefault();
-    dispatch(allActions.userAction.registerUser(User))
+    dispatch(allActions.userAction.registerUser(User,history))
   
     setUser({
       firstName:"",
@@ -37,6 +38,10 @@ const CreateUser = () => {
       userType:"user",
     })
 
+  }
+
+  const dashboardHandler=()=>{
+      history.goBack();
   }
     return (
         <>
@@ -109,6 +114,12 @@ const CreateUser = () => {
                className={`${style.fadeIn} 
               ${style.fourth}`} 
               value="Register"
+              />
+                <input type="button"
+               className={`${style.fadeIn} 
+              ${style.fourth}`} 
+              value="Back dashboard"
+              onClick={dashboardHandler}
               />
             </form>
           </div>

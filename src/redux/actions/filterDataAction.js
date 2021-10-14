@@ -1,12 +1,12 @@
 import axios from "axios";
-const DeleteUsers = (id)=> async (dispatch)=> {
+const filterData = (from,to)=> async (dispatch)=> {
 
 
     const userToken=localStorage.getItem('token');
 
   dispatch(requestPosts())
   try {
-     await axios.delete(`http://34.210.129.167/api/users/${id}`,{
+     await axios.get(`http://34.210.129.167/api/work-logs/${from}/${to}`,{
         headers: {
             Authorization: `Bearer ${userToken}`,
           },
@@ -34,7 +34,7 @@ const requestPosts = ()=>{
 }
 
 const exportedObject= {
-  DeleteUsers,
+  filterData,
   requestPosts
 }
 export default  exportedObject;

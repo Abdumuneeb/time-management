@@ -32,6 +32,11 @@
     padding: 20px;
     cursor: pointer;
 }
+.flexDir form {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    }
 thead{
     text-align: center;
 }

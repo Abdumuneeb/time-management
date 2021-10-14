@@ -2,12 +2,16 @@ import React,{useState} from 'react';
 import style from './Login.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import allActions from '../../redux/actions';
 
 const Login = () => {
+
   const dispatch = useDispatch();
-  const data= useSelector(state=>state.posts.postItems.token);
-  console.log("Tokennn" ,data);
+  const data= useSelector(state=>state?.posts?.postItems?.token);
+
+  const history = useHistory();
+
   const [login,setLogin] =useState({
     email:'',
     password:'',
@@ -22,14 +26,7 @@ const Login = () => {
   }
   const submitHandler =(event)=>{
     event.preventDefault();
-    dispatch(allActions.postActions.fetchPosts(login));
-
-    // setLogin({
-    //   email:"",
-    //   password:"",
-    //   token:data
-    
-    // })
+    dispatch(allActions.postActions.fetchPosts(login,history));
   }
  
 
@@ -49,7 +46,7 @@ const Login = () => {
                 id="login"
                 className={`${style.fadeIn} ${style.second}`} 
                 name="email"
-                value={login.email}
+                value={login?.email || ""}
                 placeholder="Email Address"
                 onChange={changeHandler}
               />
@@ -58,10 +55,12 @@ const Login = () => {
                 id="password"
                 className={`${style.fadeIn} ${style.third}`}
                 name="password"
-                value={login.password}
+                value={login?.password || ""}
                 placeholder="password"
                 onChange={changeHandler}
-              />
+              />  
+              
+              {/* {button} */}
               <input type="submit" className={`${style.fadeIn} ${style.fourth}`}  value="Log In" /> 
               <Link to="/signup">  <input type="button"  className={`${style.fadeIn} ${style.fourth}`}  value="Sign Up" /> </Link>
             </form>

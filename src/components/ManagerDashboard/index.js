@@ -6,23 +6,95 @@ import { Link } from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
 import allActions from '../../redux/actions';
 
+var editId=0;
+
 const ManagerDashboard = () => {
   const data= useSelector(state => state?.Users?.postItems?.users?.data);
-  const [deleteData,setDeleteData] =useState("");
-  console.log("Uselector data",data);
+  const [state,setstate] =useState("");
    const dispatch = useDispatch();
 
+   
+  //filter Data state
+  const [filterDate,setFilterDate] =useState({
+    formDate:"",
+    toDate:""
+  });
+
+  //filter handler
+  const filterHandler =(event)=>{
+    const {name,value}= event.target;
+    setFilterDate((prevalue)=>{
+      return{...prevalue,[name]:value}
+    })
+  }
+//dispatching filter Dates
+const searchHandler=()=>{
+  dispatch(allActions.filterData.filterData(filterDate));
+}
+
+ //edit use State
+ const [editData,setEditData] =useState({
+  firstName:"",
+  lastName:"",
+  email:"",
+})
+
+
+//fetching all users
 useEffect(() => {
   dispatch(allActions.getUser.fetchUsers());
- 
-}, [deleteData]);
+ // eslint-disable-next-line
+}, [state]);
 
-
+//deleting users
 const deleteHandler=(id)=>{
-dispatch(allActions. deleteUser.DeleteUsers(id));
-setDeleteData(id);
+dispatch(allActions?.deleteUser?.DeleteUsers(id));
+setstate(id);
 
 }
+
+//editing
+const editHandler =(id)=>{
+  const editUser = data?.filter((arr)=>{
+    return arr.id ===id; 
+  }
+ ) 
+ 
+  console.log("EDit user",editUser);
+  setEditData({
+    firstName:editUser[0]?.firstName,
+    lastName:editUser[0]?.lastName,
+    email:editUser[0]?.email
+    
+  })
+
+  editId=id;
+}
+
+//edit change handler
+const editChangeHandler =(e)=>{
+  const {name,value} =e.target; //destructuring 
+  setEditData((prevalue)=>{
+  return {...prevalue,[name]:value}
+  })
+  }
+  
+  const updateHandler =(e)=>{
+    e.preventDefault();
+    //dispatch that edit user
+      dispatch(allActions.UpdateUsers.UpdateUsers(editId,editData))
+      setstate(editId);
+      setEditData({
+        firstName:"",
+        lastName:"",
+        email:""
+      })
+  }
+
+   //logout, clearing local storage
+   const clearHandler=()=>{
+    localStorage.removeItem('token');
+  }
 
     return (
       <>
@@ -47,7 +119,7 @@ setDeleteData(id);
                <Link to="/createuser">  <button className={`btn ${style.actionButton}`} > Create User </button> </Link>
                 </li>
                 <li className="nav-item me-3">
-                 <button className={`btn ${style.actionButton}`} > Log Out </button>
+                <Link to="/"><button className={`btn ${style.actionButton}`} onClick={clearHandler} > Log Out </button> </Link>
                 </li>
               </ul> 
             </div>
@@ -55,21 +127,35 @@ setDeleteData(id);
         </nav>
         <div className={style.contentWrapper}>
                 <div className={style.dateWrap}>
-                        <form>
+                        <form onSubmit={filterHandler}>
                         <label className={style.labelWrap}> From</label>
-                        <input type="date" />
-                        <label className={style.labelWrap}> To</label>
-                        <input type="date" />
-                        <button className={`btn ${style.actionButton}`} > Search </button>
+                        <input type="date"  name="fromDate" value={filterDate?.formDate} onChange={filterHandler}/>
+                        <label className={style.labelWrap }> To</label>
+                        <input type="date" name="toDate" value={filterDate?.toDate}  onChange={filterHandler}/>
+                        <button type="submit" className={`btn ${style.actionButton}`} onClick={searchHandler} > Search </button>
                         </form>
                         
                 </div>
         </div>
 
+          {/* edit form start*/}
+      <div className={style.contentWrapper}>
+                <div className={ `${style.dateWrap} ${style.flexDir}`}>
+                        <form onSubmit={updateHandler}>
+                        <input type="text" onChange={editChangeHandler} name="firstName" value={editData.firstName} placeholder ="first Name" />
+                        <input type="text" onChange={editChangeHandler} name="lastName" value={editData.lastName}  placeholder="Last Name"/>
+                        <input type="email" onChange={editChangeHandler} name="email" value={editData.email} placeholder="Email address" />
+                        <button type="submit" className={`btn ${style.actionButton}`} > update </button>
+                        </form>
+                        
+                </div>
+        </div>
+        {/* edit form end*/}
+
         <div className={style.section}>
             <h3> Users Details </h3>
             <div className={style.container}>         
-                    <table>
+            <div className="table-responsive">        <table>
                         <thead>
                         <tr>
                             <th>id</th>
@@ -89,7 +175,7 @@ setDeleteData(id);
                                             <td>{value.lastName} </td>
                                             <td>{value.email}</td>
                                             <td> 
-                                              <EditIcon className={style.editBtn}/>
+                                              <EditIcon className={style.editBtn} onClick={()=>{editHandler(value.id)}}/>
                                               <DeleteIcon className={style.editBtn} onClick={()=>{ deleteHandler(value.id)}}/> 
                                             </td>
                                      </tr>
@@ -98,6 +184,7 @@ setDeleteData(id);
                       </tbody>
                        
                     </table>
+                    </div>
             </div>
             </div>
 

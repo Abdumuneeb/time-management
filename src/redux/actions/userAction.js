@@ -1,5 +1,5 @@
 import axios from "axios";
-const registerUser = (user) => async (dispatch) => {
+const registerUser = (user,history) => async (dispatch) => {
   console.log("user in postAction = ", user.password);
   const firstName = user.firstName;
   const lastName = user.lastName;
@@ -8,15 +8,7 @@ const registerUser = (user) => async (dispatch) => {
   const password_confirmation = user.password_confirmation;
   const userType = user.userType.toString();
 
-  console.log("firstname", firstName);
-  console.log("Lastname", lastName);
-  console.log("email", email);
-  console.log("Password", password);
-  console.log("confirm", password_confirmation);
-  console.log("userType", userType);
-
   const userToken = localStorage.getItem("token");
-  console.log("in action token : " + userToken);
 
   dispatch(requestPosts());
   try {
@@ -39,7 +31,7 @@ const registerUser = (user) => async (dispatch) => {
       )
       .then((res) => {
         const signupUser = res.data;
-        console.log(res);
+        console.log(res.data);
         dispatch({ type: "FETCH_POSTS_SUCCESS", payload: signupUser });
       });
   } catch (error) {

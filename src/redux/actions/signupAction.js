@@ -1,5 +1,5 @@
 import axios from "axios";
-const signup = (user)=> async (dispatch)=> {
+const signup = (user,history)=> async (dispatch)=> {
      console.log("user in postAction = ",user.password);
      const firstName=user.firstName;
      const lastName =user.lastName;
@@ -20,9 +20,17 @@ const signup = (user)=> async (dispatch)=> {
        })
        .then((res)=>{
         const signupData=res.data; 
-        console.log(res)
+        console.log(res.data);
+        const role =res.data.user.roles[0].name;
         dispatch({type: "FETCH_POSTS_SUCCESS", payload: signupData})
-     
+            if(role==="manager")
+            {
+              history.push("/manager")
+            }
+            else if(role==="admin")
+            {
+              history.push("/admin")
+            }
       })
 
   }  

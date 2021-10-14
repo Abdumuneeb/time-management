@@ -2,7 +2,6 @@ import axios from "axios";
 const fetchUsers = ()=> async (dispatch)=> {
 
     const managerToken =localStorage.getItem("token");
-    console.log(managerToken);
 
 
   dispatch(requestPosts())

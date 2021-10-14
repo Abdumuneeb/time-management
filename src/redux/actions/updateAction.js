@@ -1,20 +1,26 @@
 import axios from "axios";
-const DeleteUsers = (id)=> async (dispatch)=> {
-
+const UpdateUsers = (id,user)=> async (dispatch)=> {
+    const firstName =user.firstName;
+    const lastName=user.lastName;
+    const email=user.email;
 
     const userToken=localStorage.getItem('token');
 
   dispatch(requestPosts())
   try {
-     await axios.delete(`http://34.210.129.167/api/users/${id}`,{
+     await axios.put(`http://34.210.129.167/api/users/${id}`,{
+         firstName,
+         lastName,
+         email
+     },{
         headers: {
             Authorization: `Bearer ${userToken}`,
           },
        })
        .then((res)=>{
-          const loginData=res.data; 
+          const updateUser=res.data; 
           
-          dispatch({type: "FETCH_POSTS_SUCCESS", payload: loginData})
+          dispatch({type: "FETCH_POSTS_SUCCESS", payload: updateUser})
           console.log(res);
       
       })
@@ -34,7 +40,7 @@ const requestPosts = ()=>{
 }
 
 const exportedObject= {
-  DeleteUsers,
+  UpdateUsers,
   requestPosts
 }
 export default  exportedObject;

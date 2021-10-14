@@ -5,6 +5,10 @@ import getUser from './getUser';
 import createLogs from './createUserLogsAction';
 import deleteUser from './deleteUserActions';
 import getUserLogs from './getUserLogs';
+import UpdateUsers from './updateAction';
+import updateUserLogs from './UpdateUserLogsAction';
+import filterData from './filterDataAction';
+import prefferedHours from './prefferedHoursAction';
 
 const allActions = {
     postActions,
@@ -13,9 +17,11 @@ const allActions = {
     getUser,
     createLogs,
     deleteUser,
-    getUserLogs
-
-    
+    getUserLogs,
+    UpdateUsers,
+    updateUserLogs,
+    filterData,
+    prefferedHours
 
 }
 

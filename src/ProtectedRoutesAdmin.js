@@ -7,7 +7,7 @@ const ProtectedRoutesAdmin = ({isAuth,component:Component,role,...rest}) => {
         <Route
             {...rest}
             render={(props)=>{
-                if(isAuth && role ==="manager"){
+                if(isAuth && role ==="admin"){
                     return (
                         <>
                        { console.log("roleeeeee" ,role)}

@@ -1,11 +1,7 @@
   import axios from "axios";
-  const fetchPosts = (user)=> async (dispatch)=> {
+  const fetchPosts = (user,history)=> async (dispatch)=> {
       const email = user.email;
       const password = user.password;
-    //   const token=user.token;
-      console.log("************" ,email);
-      console.log("*****************",password);
-    //   console.log("*************",token);
 
     dispatch(requestPosts())
     try {
@@ -21,7 +17,19 @@
             const loginData=res.data; 
             
             dispatch({type: "FETCH_POSTS_SUCCESS", payload: loginData})
-            console.log(res);
+            console.log(res.data);
+            const role=res.data.user.roles[0].name;
+            console.log("Roiles",res.data.user.roles[0].name);
+            if(role==="manager"){
+              history.push('/manager')
+            }
+            else if(role==="admin"){
+              history.push('/admin')
+            }
+            else if(role==="user"){
+              history.push('/user')
+            }
+           
             localStorage.setItem(
             "token",
               res.data.token,

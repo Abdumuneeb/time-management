@@ -1,22 +1,31 @@
 import axios from "axios";
-const DeleteUsers = (id)=> async (dispatch)=> {
+const fetchHours = (data,specificUser)=> async (dispatch)=> {
 
+const prefferedHours =data.hours;
 
-    const userToken=localStorage.getItem('token');
+const token =localStorage.getItem('token');
 
   dispatch(requestPosts())
   try {
-     await axios.delete(`http://34.210.129.167/api/users/${id}`,{
+     await axios.patch(`http://34.210.129.167/api/users/${parseInt(specificUser)}/preferred-working-hours`,
+        {
+            workingHours:prefferedHours
+        }
+        
+     ,{
         headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${token}`,
           },
+   
        })
        .then((res)=>{
           const loginData=res.data; 
           
           dispatch({type: "FETCH_POSTS_SUCCESS", payload: loginData})
-          console.log(res);
-      
+          console.log(res.data);
+        
+         
+        
       })
 
   }  
@@ -34,7 +43,7 @@ const requestPosts = ()=>{
 }
 
 const exportedObject= {
-  DeleteUsers,
+  fetchHours,
   requestPosts
 }
 export default  exportedObject;

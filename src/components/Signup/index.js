@@ -2,10 +2,12 @@ import React ,{useState} from 'react';
 import { useDispatch } from 'react-redux';
 import allActions from '../../redux/actions';
 import style from './Signup.module.css';
+import { useHistory } from 'react-router';
 
 
 const Signup = () => {
 
+  const history =useHistory();
   const dispatch = useDispatch();
   const [signup,setSignUp] = useState({
     firstName: '',
@@ -24,7 +26,7 @@ const Signup = () => {
   }
   const submitHandler=(event)=>{
     event.preventDefault();
-    dispatch(allActions.signupAction.signup(signup))
+    dispatch(allActions.signupAction.signup(signup,history))
   
     setSignUp({
       firstName:"",
@@ -35,6 +37,13 @@ const Signup = () => {
     })
 
   }
+
+  const registerHandler =()=> {
+    
+    } 
+    const dashboardHandler =()=> {
+    history.goBack();
+    } 
 
     return (
       <>
@@ -95,6 +104,13 @@ const Signup = () => {
                className={`${style.fadeIn} 
               ${style.fourth}`} 
               value="Register"
+              onClick={registerHandler}
+              />
+              <input type="submit"
+               className={`${style.fadeIn} 
+              ${style.fourth}`} 
+              value="Back Dashboard"
+              onClick={dashboardHandler}
               />
             </form>
           </div>
